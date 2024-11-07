@@ -2,6 +2,7 @@
 
 //helper funcitons
 namespace {
+/*DEPRECATED
 unsigned __int128 __powmod(unsigned __int128 x, unsigned __int128 p, uint64_t n) {
 	
 	unsigned __int128 res = 1;
@@ -14,6 +15,26 @@ unsigned __int128 __powmod(unsigned __int128 x, unsigned __int128 p, uint64_t n)
 		x = (x * x) % n;
 	}
 
+	return res;
+}
+*/
+
+uint64_t __powmod(uint64_t x, uint64_t p, uint64_t n) {
+
+	if(p == 0) return 1;
+
+	unsigned __int128 res_wide = 1;
+	unsigned __int128 x_wide = x;
+	unsigned __int128 n_wide = n;
+
+	while(p) {
+		if((p & 1) == 1) res_wide = (x_wide * res_wide) % n_wide;
+
+		p >>= 1;
+		x_wide = (x_wide * x_wide) % n_wide;
+	}
+
+	uint64_t res = (uint64_t)res_wide;
 	return res;
 }
 
