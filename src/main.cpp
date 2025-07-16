@@ -4,6 +4,8 @@
 #include <iostream>
 #include <chrono>
 
+#include <cmath> //std::cbrt()
+
 #include "primeFactorization.h"
 
 using primes::factor;
@@ -35,6 +37,7 @@ int main(int argc, char* argv[]) {
 	auto endTime = std::chrono::high_resolution_clock::now();
 	auto timeElapsed = endTime - startTime;
 	std::cout << "\n\nCalculated in: " << (timeElapsed / std::chrono::milliseconds(1)) << "ms\n";
+	std::cout << "Extra memory used: " << ((int)std::cbrt(n)+1) << " bytes\n"; //does not work for more than one command line arg
 
 	return 0;
 }
