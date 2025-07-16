@@ -19,6 +19,10 @@ unsigned __int128 __powmod(unsigned __int128 x, unsigned __int128 p, uint64_t n)
 }
 */
 
+
+
+//figure this out without isng __int128
+//move this outside this anonymus namespace, this could be useful for someone
 uint64_t __powmod(uint64_t x, uint64_t p, uint64_t n) {
 
 	if(p == 0) return 1;
@@ -67,9 +71,9 @@ std::map<uint64_t, unsigned> primes::factor(uint64_t n) {
 			factors[n]++;
 		}
 		else {
-			std::pair<uint64_t, uint64_t> remainingFactors = divisors(n); //replace with findDivisor(n)
-			factors[remainingFactors.first]++;
-			factors[remainingFactors.second]++;
+			uint64_t divisor = findDivisor(n, true);
+			factors[divisor]++;
+			factors[n/divisor]++;
 		}
 	}
 
@@ -145,13 +149,47 @@ std::pair<uint64_t, uint64_t> primes::divisors(uint64_t n) {
 		y = __g(__g(y, c, n), c, n);
 		d = std::gcd((x>y)?x-y:y-x, n);
 
-		if(d == n) {
+		if(d == n) { //reset and try again with different c
 			x = 2;
 			y = x;
 			d = 1;
-			c++;
+			c++; //add check for c < n - 1
 		}
 	}
 
 	return std::pair<uint64_t, uint64_t>(d, n/d);
+}
+
+uint64_t primes::findDivisor(uint64_t n, bool skipPrimeCheck, bool returnSmaller) {
+
+	//maybe define __g inline
+
+	if(skipPrimeCheck == false) {
+		if(isPrime(n)) return 1;
+	}
+
+	if(n == 1) return 1;
+	if(n % 2 == 0) return 2;
+
+	uint64_t x = 2;
+	uint64_t y = x;
+	uint64_t d = 1;
+	uint64_t c = 1;
+
+	while(d == 1) {
+		x = __g(x, c, n);
+		y = __g(__g(y, c, n), c, n);
+		d = std::gcd((x>y)?x-y:y-x, n);
+
+		if(d == n) { //failure condition, reset and try again with different c
+			x = 2;
+			y = x;
+			d = 1;
+			c++; //add check for c < n - 1
+		}	
+	}
+
+	if(returnSmaller) d = std::min(d, n/d);
+
+	return d;
 }

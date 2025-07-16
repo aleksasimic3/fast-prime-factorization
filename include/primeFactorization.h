@@ -9,6 +9,7 @@
 #include <cmath>
 #include <vector>
 #include <numeric>
+#include <algorithm>
 
 #include <iostream>
 
@@ -23,12 +24,11 @@ std::map<uint64_t, unsigned> factor(uint64_t n);
 bool* generatePrimes(uint64_t n);
 
 //check if number is prime using the miller rabin primality test
-//add optional divisor
 bool isPrime(uint64_t n, uint64_t* possibleDivisor=nullptr);
 
 //returns a pair of two divisors of n using the pollard's rho algorithm
-std::pair<uint64_t, uint64_t> divisors(uint64_t n);
-//uint64_t findDivisor(uint64_t n); //returns non trivial divisor of n, expects n to be composite, also add skipPrimeCheck flag
+std::pair<uint64_t, uint64_t> divisors(uint64_t n); //DEPRECATED
+uint64_t findDivisor(uint64_t n, bool skipPrimeCheck = false, bool returnSmaller = true); //returns non trivial divisor of n (1 if n is prime), also add skipPrimeCheck flag if we know n is composite
 
 }
 
