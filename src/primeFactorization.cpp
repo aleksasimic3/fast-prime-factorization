@@ -87,6 +87,10 @@ bool* primes::generatePrimes(uint64_t n) {
 	if(primes == NULL) return NULL;
 	std::memset(primes, true, (n+1) * sizeof(bool));
 
+	//0 and 1 are not prime
+	primes[0] = false;
+	primes[1] = false;
+
 	for(uint64_t i = 2; i*i <= n; i++) {
 		if(primes[i] == true) {
 			for(uint64_t j = i*i; j <= n; j += i) {
