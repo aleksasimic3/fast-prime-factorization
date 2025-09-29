@@ -13,3 +13,9 @@ main.o: $(SOURCE_DIR)main.cpp $(INCLUDE_DIR)primeFactorization.h
 
 primeFactorization.o: $(SOURCE_DIR)primeFactorization.cpp $(INCLUDE_DIR)primeFactorization.h
 	$(CC) -c -o primeFactorization.o $(SOURCE_DIR)primeFactorization.cpp $(CFLAGS)
+
+test.exe: test.o primeFactorization.o
+	$(CC) -o $(BINARY_DIR)test.exe test.o primeFactorization.o $(CFLAGS)
+
+test.o:	test/test.cpp $(INCLUDE_DIR)primeFactorization.h
+	$(CC) -c -o test.o test/test.cpp $(CFLAGS)
