@@ -67,11 +67,12 @@ std::map<uint64_t, unsigned> primes::factor(uint64_t n) {
 	}
 
 	if(n > 1) {
-		if(isPrime(n)) {
+		uint64_t possibleDivisor = 0;
+		if(isPrime(n, &possibleDivisor)) {
 			factors[n]++;
 		}
 		else {
-			uint64_t divisor = findDivisor(n, true);
+			uint64_t divisor = possibleDivisor == 0 ? findDivisor(n, true) : possibleDivisor;
 			factors[divisor]++;
 			factors[n/divisor]++;
 		}
@@ -129,7 +130,10 @@ bool primes::isPrime(uint64_t n, uint64_t* possibleDivisor) {
 
 		for(uint64_t i = 0; i < s; i++) {
 			y = __powmod(x, 2, n);
-			if(y == 1 && x != 1 && x != n-1) return false; //divisor found
+			if(y == 1 && x != 1 && x != n-1) { //in this case we also found a divisor of n
+				if(possibleDivisor != nullptr) *possibleDivisor = std::gcd(x-1, n);
+				return false;
+			}
 			x = y;
 		}
 
