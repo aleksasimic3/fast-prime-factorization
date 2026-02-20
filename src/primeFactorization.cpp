@@ -19,7 +19,17 @@ unsigned __int128 __powmod(unsigned __int128 x, unsigned __int128 p, uint64_t n)
 }
 */
 
+//assembly mi ne radi posao ovde, morao bih da podelim u strukturu koja cuva gornji i donji deo pa odvojeno da mnozim i delim
+//ako uspem onda u sustini mogu do 128 bitova bez problema da racunam
+//onda mogu da napravim da isti kod podrzava __int128 kao i uint64_t
+uint64_t __powmod_no_compiler_extensions(uint64_t x, uint64_t p, uint64_t n) {
 
+	uint64_t res = 1;
+
+	//...todo...
+
+	return res;
+} 
 
 //figure this out without isng __int128
 //move this outside this anonymus namespace, this could be useful for someone
@@ -51,7 +61,7 @@ std::map<uint64_t, unsigned> primes::factor(uint64_t n) {
 
 	if(n == 0) return std::map<uint64_t, unsigned>{{0, 1}}; //this is not formaly correct, every non zero number divides 0 perfectly
 	if(n == 1) return std::map<uint64_t, unsigned>{{1, 1}};
-
+	
 	std::map<uint64_t, unsigned> factors;
 
 	uint64_t upperBound = std::cbrt(n) + 1;
